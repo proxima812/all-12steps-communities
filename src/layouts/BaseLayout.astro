@@ -3,7 +3,6 @@ import AsideLeft from '@/components/AsideLeft.astro'
 import AsideRight from '@/components/AsideRight.astro'
 import MenuMobile from '@/components/MenuMobile.astro'
 import SEOTags from '@/components/seo/SEOTags.astro'
-import { ViewTransitions } from 'astro:transitions'
 type HeadTags = {
   title?: string
   description?: string
@@ -23,9 +22,6 @@ const headTags = Astro.props
 <!doctype html>
 <html lang="ru">
   <SEOTags {...headTags} />
-  <!-- <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
-  <script src="/pagefind/pagefind-ui.js" is:inline></script> -->
-  <!-- <ViewTransitions /> -->
   <body>
     <div class="p-6 mx-auto lg:flex block">
       <MenuMobile />
