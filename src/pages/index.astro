@@ -1,0 +1,17 @@
+---
+import PostCard from '@/components/PostCard.astro'
+import Search from '@/components/Search'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
+
+const posts = (await getCollection('communities')).filter((d) => !d.data.draft)
+---
+
+<BaseLayout title="Список сообществ">
+  <!-- <Pagefind /> -->
+  <h2 class="text-semibold text-2xl">Сообщества</h2>
+  <Search postsList={posts} searchTo={'communities'} client:load />
+  <main class="grid max-[345px]:grid-cols-1 grid-cols-2 md:grid-cols-3 gap-6">
+    {posts.map((post) => <PostCard data={post.data} slug={post.slug} />)}
+  </main>
+</BaseLayout>

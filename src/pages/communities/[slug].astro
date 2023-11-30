@@ -1,0 +1,123 @@
+---
+import AsideInPost from '@/components/AsideInPost.astro'
+import InfoAside from '@/components/InfoAside.astro'
+import Inst from '@/components/icons/Inst.astro'
+import TG from '@/components/icons/TG.astro'
+import VK from '@/components/icons/VK.astro'
+import YB from '@/components/icons/YB.astro'
+
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { Image } from 'astro:assets'
+import { getCollection } from 'astro:content'
+// 1. Generate a new path for every collection entry
+export async function getStaticPaths() {
+  const communitiesList = await getCollection('communities')
+  return communitiesList.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
+}
+// 2. For your template, you can get the entry directly from the prop
+const { entry } = Astro.props
+const { Content } = await entry.render()
+
+const aClass = 'flex gap-1 items-center bg-blue-50 ring-1 ring-blue-100 p-1 rounded-md'
+const spanClass = 'text-blue-600'
+---
+
+<BaseLayout
+  title={entry.data.title + ' ▪ ' + entry.data.soon}
+  description={entry.data.description}
+>
+  <AsideInPost />
+  <div class="flex flex-wrap md:flex-nowrap items-center gap-4">
+    {
+      entry.data.logoImage && (
+        <Image
+          class="transition-all duration-75 ease-linear object-cover rounded-2xl ring-1 group-hover:ring-green-300 ring-gray-200 w-[120px] h-[120px]"
+          width={450}
+          height={450}
+          src={entry.data.logoImage}
+          alt={entry.data.title}
+          format={'avif'}
+          quality={'higt'}
+        />
+      )
+    }
+    <div class="flex flex-col gap-2">
+      <h1 class="text-3xl font-bold">{entry.data.title}</h1>
+      <span class="text-gray-600">Год основания: <b>{entry.data.soon}</b></span>
+      {
+        entry.data.description && (
+          <p class="text-sm leading-relaxed text-gray-500">{entry.data.description}</p>
+        )
+      }
+    </div>
+  </div>
+  <aside aria-label="Ссылки и источники" class="flex flex-col gap-3">
+    <span class="font-medium text-gray-700">🔗 Источники и ссылки:</span>
+    <nav class="flex flex-wrap items-center gap-2">
+      {
+        entry.data.links &&
+          entry.data.links.map((link) => {
+            if (link.startsWith('https://vk.com/')) {
+              return (
+                <a href={link} class={aClass} target="_blank">
+                  <VK />{' '}
+                  <span class={spanClass}>{link.replace('https://vk.com/', '')}</span>
+                </a>
+              )
+            }
+            if (link.startsWith('https://t.me/')) {
+              return (
+                <a href={link} class={aClass} target="_blank">
+                  <TG />{' '}
+                  <span class={spanClass}>{link.replace('https://t.me/', '')}</span>
+                </a>
+              )
+            }
+            if (link.startsWith('https://www.instagram.com/')) {
+              return (
+                <a href={link} class={aClass} target="_blank">
+                  <Inst />{' '}
+                  <span class={spanClass}>
+                    {link.replace('https://www.instagram.com/', '')}
+                  </span>
+                </a>
+              )
+            }
+            if (link.startsWith('https://www.youtube.com/')) {
+              return (
+                <a href={link} class={aClass} target="_blank">
+                  <YB />{' '}
+                  <span class={spanClass}>
+                    {link.replace('https://www.youtube.com/', '')}
+                  </span>
+                </a>
+              )
+            }
+            if (link.startsWith('http://')) {
+              return (
+                <a href={link} class={aClass} target="_blank">
+                  <span class="text-[22px] leading-none">🌐</span>{' '}
+                  <span class={spanClass}>{link.replace('http://', '')}</span>
+                </a>
+              )
+            } else {
+              return (
+                <a href={link} class={aClass} target="_blank">
+                  <span class="text-[22px] leading-none">🌐</span>{' '}
+                  <span class={`break-all ${spanClass}`}>
+                    {link.replace('https://', '')}
+                  </span>
+                </a>
+              )
+            }
+          })
+      }
+    </nav>
+  </aside>
+  <div class="prose">
+    <Content />
+  </div>
+</BaseLayout>

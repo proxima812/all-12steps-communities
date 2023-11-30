@@ -1,0 +1,13 @@
+---
+import Link from '@/components/Link.astro'
+import Logotype from '@/components/Logotype.astro'
+
+import { menu } from '@/data/informations'
+---
+
+<aside class="hidden lg:flex max-w-[265px] flex-col gap-4 w-full">
+  <Logotype />
+  <nav class="flex flex-col">
+    {menu.map((item) => <Link href={item.link}>{item.name}</Link>)}
+  </nav>
+</aside>

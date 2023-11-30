@@ -1,0 +1,24 @@
+---
+// @ts-ignore
+import { links } from '@/data/informations'
+import InfoAside from './InfoAside.astro'
+---
+
+<aside class="hidden lg:flex flex-col gap-6 max-w-[315px] w-full">
+  <p class="font-semibold">💛 При поддержке:</p>
+  <ul class="flex flex-col gap-4">
+    {
+      links.map((item) => (
+        <li>
+          <a
+            href={item.link}
+            class="font-medium text-gray-800 px-3 py-1.5 rounded-md bg-gray-50 hover:bg-gray-100 duration-75 ease-linear transition-colors"
+          >
+            {item.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <InfoAside />
+</aside>
