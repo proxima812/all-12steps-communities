@@ -5,7 +5,7 @@ const communities = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      description: z.string().max(150).optional(),
+      description: z.string().max(160).optional(),
       soon: z.string().default('Неизвестно'),
       links: z.array(z.string()).optional(),
       pubDate: z.coerce.date().optional(),
