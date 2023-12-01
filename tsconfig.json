@@ -3,7 +3,7 @@
   "compilerOptions": {
     "strictNullChecks": true,
     "allowJs": true,
-    "baseUrl": "/Users/samgold/Desktop/Проекты/Сайты/ra-vercel-app",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
